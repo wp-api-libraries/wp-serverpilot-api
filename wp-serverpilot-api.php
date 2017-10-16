@@ -6,12 +6,12 @@
  */
 /*
 * Plugin Name: WP ServerPilot API
-* Plugin URI: https://github.com/wp-api-libraries/wp-maxcdn-api
+* Plugin URI: https://github.com/wp-api-libraries/wp-serverpilot-api
 * Description: Perform API requests to ServerPilot in WordPress.
 * Author: WP API Libraries
 * Version: 1.0.0
 * Author URI: https://wp-api-libraries.com
-* GitHub Plugin URI: https://github.com/wp-api-libraries/wp-maxcdn-api
+* GitHub Plugin URI: https://github.com/wp-api-libraries/wp-serverpilot-api
 * GitHub Branch: master
 */
 /* Exit if accessed directly. */
@@ -115,9 +115,73 @@ if ( ! class_exists( 'ServerPilotAPI' ) ) {
 		
 		/* APPS. */
 		
+		public function list_apps() {
+			
+		}
+		
+		public function create_app() {
+			
+		}
+		
+		public function get_app() {
+			
+		}
+		
+		public function delete_app() {
+			
+		}
+		
+		public function update_app() {
+			
+		}
+		
+		public function add_custom_ssl() {
+			
+		}
+		
+		public function enable_auto_ssl() {
+			
+		}
+		
+		public function delete_custom_ssl() {
+			
+		}
+		
+		public disable_auto_ssl() {
+			
+		}
+		
+		public function toggle_force_ssl() {
+			
+		}
+		
 		/* DATABASES. */
 		
+		public function list_databases() {
+			
+		}
+		
+		public function create_database() {
+			
+		}
+		
+		public function retrieve_database() {
+			
+		}
+		
+		public function delete_database() {
+			
+		}
+		
+		public function update_db_user_password() {
+			
+		}
+		
 		/* ACTIONS. */
+		
+		public function check_action_status() {
+			
+		}
 		
 	} // Endif().
 } // Endif().
