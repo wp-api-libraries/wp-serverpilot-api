@@ -5,15 +5,20 @@
  * @package wp-api-libraries-base
  */
 /* Exit if accessed directly. */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /* Check if class exists. */
-if ( ! class_exists( 'WpLibrariesBase' ) ) {
+if ( ! class_exists( 'WpServerPilotAPIBase' ) ) {
+
 	/**
-	 * Abstract WpLibrariesBase class.
+	 * Abstract WpServerPilotAPIBase class.
 	 *
 	 * @abstract
 	 */
-	abstract class WpLibrariesBase {
+	abstract class WpServerPilotAPIBase {
+
 		/**
 		 * Arguments.
 		 *
@@ -21,6 +26,7 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 		 * @access protected
 		 */
 		protected $args;
+
 		/**
 		 * Base URI.
 		 *
@@ -28,6 +34,7 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 		 * @access protected
 		 */
 		protected $base_uri;
+
 		/**
 		 * Is Debug.
 		 *
@@ -35,6 +42,7 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 		 * @access protected
 		 */
 		protected $is_debug;
+
 		/**
 		 * __construct function.
 		 *
@@ -43,10 +51,11 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 		 * @param mixed $debug Debug.
 		 * @return void
 		 */
-		public function __construct( $base_uri, $debug ) {
+		public function __construct( $base_uri, $debug = false ) {
 			$this->base_uri = $base_uri;
 			$this->is_debug = $debug;
 		}
+
 		/**
 		 * Build request function: prepares the class for a fetch request.
 		 *
@@ -63,6 +72,11 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 			$this->args['method'] = $method;
 			// Sets route.
 			$this->route = $route;
+
+			// Merge bodies.
+			if( isset( $this->args['body'] ) ){
+				$body = array_merge( $this->args['body'], $body );
+			}
 			// If method is get, then there is no body.
 			if ( 'GET' === $method ) {
 				$this->route = add_query_arg( array_filter( $body ), $route );
@@ -75,6 +89,7 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 			}
 			return $this;
 		}
+
 		/**
 		 * Fetch.
 		 *
@@ -87,12 +102,14 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 			// Retrieve status code and body.
 			$code = wp_remote_retrieve_response_code( $response );
 			$body = json_decode( wp_remote_retrieve_body( $response ) );
+
+			$this->clear();
 			if ( ! $this->is_status_ok( $code ) && ! $this->is_debug ) {
 				return new WP_Error( 'response-error', sprintf( __( 'Status: &d', 'wp-libraries-api-base' ), $code ), $body );
 			}
-			$this->clear();
 			return $body;
 		}
+
 		/**
 		 * Function to be overwritten, gets called before call. Should be used to set headers.
 		 *
@@ -100,7 +117,10 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 		 * @abstract
 		 * @return void
 		 */
-		abstract protected function set_headers();
+		protected function set_headers(){
+			$this->args = array();
+		}
+
 		/**
 		 * Function to be overwritten, gets called after the request has been made (if status code was ok). Should be used to reset headers.
 		 *
@@ -108,7 +128,10 @@ if ( ! class_exists( 'WpLibrariesBase' ) ) {
 		 * @abstract
 		 * @return void
 		 */
-		abstract protected function clear();
+		protected function clear(){
+			$this->args = array();
+		}
+
 		/**
 		 * Returns whether status is in [ 200, 300 ).
 		 *
