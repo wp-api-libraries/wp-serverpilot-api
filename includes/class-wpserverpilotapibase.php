@@ -4,6 +4,7 @@
  *
  * @package wp-api-libraries-base
  */
+
 /* Exit if accessed directly. */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -74,7 +75,7 @@ if ( ! class_exists( 'WpServerPilotAPIBase' ) ) {
 			$this->route = $route;
 
 			// Merge bodies.
-			if( isset( $this->args['body'] ) ){
+			if ( isset( $this->args['body'] ) ) {
 				$body = array_merge( $this->args['body'], $body );
 			}
 			// If method is get, then there is no body.
@@ -117,7 +118,7 @@ if ( ! class_exists( 'WpServerPilotAPIBase' ) ) {
 		 * @abstract
 		 * @return void
 		 */
-		protected function set_headers(){
+		protected function set_headers() {
 			$this->args = array();
 		}
 
@@ -128,7 +129,7 @@ if ( ! class_exists( 'WpServerPilotAPIBase' ) ) {
 		 * @abstract
 		 * @return void
 		 */
-		protected function clear(){
+		protected function clear() {
 			$this->args = array();
 		}
 
